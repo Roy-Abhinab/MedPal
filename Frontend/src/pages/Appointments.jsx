@@ -1,7 +1,8 @@
-import React, { use, useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
 import { assets } from '../assets/assets'
+import RelatedDoc from '../components/RelatedDoc'
 
 const Appointments = () => {
 
@@ -57,7 +58,9 @@ const Appointments = () => {
         currentDate.setMinutes(currentDate.getMinutes() + 30)
       }
 
-      setDocSlots(prev => ([...prev, timeslots]))
+      if (timeslots.length > 0) {
+            setDocSlots(prev => ([...prev, timeslots]))
+      }
     }
 
   }
@@ -134,6 +137,8 @@ const Appointments = () => {
         <button className='bg-primary text-white text-sm font-light px-14 py-3 rounded-full my-6'>Book appointment</button>
         
       </div>
+
+      <RelatedDoc docId={docId} speciality={docInfo.speciality} />
 
     </div>
   )

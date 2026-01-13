@@ -1,12 +1,12 @@
-import React, { use } from 'react'
+import React, { useState } from 'react'
 import {assets} from '../assets/assets'
 import { NavLink, useNavigate } from 'react-router-dom'
 
 const Nav = () => {
    const navigate = useNavigate();
 
-   const [showMenu, setShowMenu] = React.useState(false);
-   const [token, setToken] = React.useState(true);
+   const [showMenu, setShowMenu] = useState(false);
+   const [token, setToken] = useState(true);
 
    return (
       <div className='flex items-center justify-between text-sm py-4 mb-5 border-b border-b-black'>
