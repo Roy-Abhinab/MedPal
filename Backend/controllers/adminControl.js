@@ -1,9 +1,10 @@
 import validator from 'validator';
-import bycrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 import { v2 as cloudinary } from 'cloudinary';
 import doctorModel from '../models/doctorModel.js';
 import jwt from 'jsonwebtoken'
 import appointmentModel from '../models/appointmentModel.js';
+import userModel from '../models/userModel.js';
 
 const addDoctor = async (req, res) => {
   try {
@@ -23,8 +24,8 @@ const addDoctor = async (req, res) => {
         return res.json({ success: false, message: 'Password must be at least 8 characters long' });
       }
 
-      const salt = await bycrypt.genSalt(10);
-      const hashedPassword = await bycrypt.hash(password, salt);
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
 
       const imageUpload = await cloudinary.uploader.upload(imageFile.path, {resource_type: "image"});
       const imageUrl = imageUpload.secure_url;
@@ -122,4 +123,26 @@ const appointmentCancel = async (req, res) => {
     }
 }
 
-export { addDoctor, loginAdmin, allDoctors, appointmentsAdmin, appointmentCancel }
+
+const adminDashboard = async (req, res) => {
+    try {
+        const doctors = await doctorModel.find({})
+        const users = await userModel.find({})
+        const appointments = await appointmentModel.find({})
+
+        const dashData = {
+            doctors: doctors.length,
+            appointments: appointments.length,
+            patients: users.length,
+            latestAppointments: appointments.reverse().slice(0, 5)
+        }
+
+        res.json({ success: true, dashData })
+
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+
+export { addDoctor, loginAdmin, allDoctors, appointmentsAdmin, appointmentCancel, adminDashboard }

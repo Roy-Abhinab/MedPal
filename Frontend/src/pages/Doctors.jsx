@@ -53,8 +53,8 @@ const Doctors = () => {
               className='border border-green-600 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500' key={index}>
                 <img className='bg-green-100' src={item.image} alt="" />
                 <div className='p-4'>
-                  <div className='flex items-center gap-2 text-sm text-center text-green-600'>
-                    <p className='w-2 h-2 bg-green-600 rounded-full'></p><p>Available</p>
+                  <div className={`flex items-center gap-2 text-sm text-center ${item.available ? 'text-green-600' : 'text-red-600'}`}>
+                    <p className={`w-2 h-2 ${item.available ? 'bg-green-600' : 'bg-red-600'}  rounded-full`}></p><p>{item.available ? 'Available' : 'Not Available'}</p>
                   </div>
                   <p className='text-black text-lg font-medium'>{item.name}</p>
                   <p className='text-gray-500 text-sm'>{item.speciality}</p>
